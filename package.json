@@ -1,0 +1,8 @@
+{
+  "name": "slack-mail-sendler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ZhuzhginNA/slack-mail-sendler.git",
+  "author": "n.zhuzhgin",
+  "license": "MIT"
+}
