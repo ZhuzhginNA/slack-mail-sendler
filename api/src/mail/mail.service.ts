@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { WebClient } from '@slack/web-api'
 import { IMailService } from './mail.service.interface'
-import { response } from 'express'
 import { PrismaClient } from '@prisma/client'
+
 
 
 const prisma = new PrismaClient()
@@ -11,7 +11,7 @@ const prisma = new PrismaClient()
 
 @Injectable()
 export class MailService implements IMailService {
-     token = 'xoxb-6873655806946-6888905554884-ROQnCU7z1izWwhn3DR7uLuH8'
+     token = process.env.BOT_TOKEN
      web = new WebClient(this.token)
 
   

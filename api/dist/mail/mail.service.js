@@ -13,7 +13,7 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 let MailService = class MailService {
     constructor() {
-        this.token = 'xoxb-6873655806946-6888905554884-ROQnCU7z1izWwhn3DR7uLuH8';
+        this.token = process.env.BOT_TOKEN;
         this.web = new web_api_1.WebClient(this.token);
     }
     async sendMessageToAllUsers(message) {
