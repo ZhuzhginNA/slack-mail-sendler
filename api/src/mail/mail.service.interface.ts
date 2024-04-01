@@ -1,4 +1,4 @@
 export interface IMailService {
     sendMessageToAllUsers(message: string) : Promise<void>,
-    getAnswers(res): any
+    getAnswers(page: number, limit: number): Promise<any>
 }

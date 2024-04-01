@@ -10,12 +10,13 @@ exports.MailModule = void 0;
 const common_1 = require("@nestjs/common");
 const mail_controller_1 = require("./mail.controller");
 const mail_service_1 = require("./mail.service");
+const client_1 = require("@prisma/client");
 let MailModule = class MailModule {
 };
 exports.MailModule = MailModule;
 exports.MailModule = MailModule = __decorate([
     (0, common_1.Module)({
-        imports: [],
+        imports: [client_1.PrismaClient],
         controllers: [mail_controller_1.MailController],
         providers: [mail_service_1.MailService],
     })

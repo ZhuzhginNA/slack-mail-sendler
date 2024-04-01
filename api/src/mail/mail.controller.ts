@@ -1,6 +1,8 @@
-import { Controller, Post, Get, Req, Res, HttpStatus } from '@nestjs/common'
+import { Controller, Post, Get, Req, Res, HttpStatus, Query } from '@nestjs/common'
 import { MailService } from './mail.service'
 import { Request, Response } from 'express'
+import { PaginationDto } from './PaginationDto'
+
 
 @Controller('/mail')
 export class MailController {
@@ -12,8 +14,8 @@ export class MailController {
   }
 
   @Get('/getAnswers')
-  getAnswer(): any {
-    return this.mailService.getAnswers()
+  getAnswer(@Query() pagination: PaginationDto): any {
+    return this.mailService.getAnswers(pagination.page, pagination.limit)
   }
 
   @Post('/postAnswer')

@@ -5,12 +5,14 @@ import { PrismaClient } from '@prisma/client'
 
 
 
+
 const prisma = new PrismaClient()
 
 
 
 @Injectable()
 export class MailService implements IMailService {
+   // constructor(private readonly prisma: PrismaClient) {}
      token = process.env.BOT_TOKEN
      web = new WebClient(this.token)
 
@@ -70,7 +72,7 @@ export class MailService implements IMailService {
       }
     }
 
-    public async getAnswers() {
+    public async getAnswers(page: number, limit: number): Promise<any> {
       try {
         const usersWithAnswers = await prisma.user.findMany({
           include: {
@@ -80,8 +82,10 @@ export class MailService implements IMailService {
               },
             },
           },
+          take: +limit, 
+          skip: (page - 1) * limit, 
         });
-    
+  
         return usersWithAnswers
       } catch (error) {
         console.error(error);

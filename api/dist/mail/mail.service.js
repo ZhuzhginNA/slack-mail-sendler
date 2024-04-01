@@ -62,7 +62,7 @@ let MailService = class MailService {
             console.error('Error sending message:', error);
         }
     }
-    async getAnswers() {
+    async getAnswers(page, limit) {
         try {
             const usersWithAnswers = await prisma.user.findMany({
                 include: {
@@ -72,6 +72,8 @@ let MailService = class MailService {
                         },
                     },
                 },
+                take: +limit,
+                skip: (page - 1) * limit,
             });
             return usersWithAnswers;
         }

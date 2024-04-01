@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common'
 import { MailController } from './mail.controller'
 import { MailService } from './mail.service'
+import { PrismaClient } from '@prisma/client'
 
 @Module({
-  imports: [],
+  imports: [PrismaClient],
   controllers: [MailController],
   providers: [MailService],
 })

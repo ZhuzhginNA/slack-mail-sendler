@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MailController = void 0;
 const common_1 = require("@nestjs/common");
 const mail_service_1 = require("./mail.service");
+const PaginationDto_1 = require("./PaginationDto");
 let MailController = class MailController {
     constructor(mailService) {
         this.mailService = mailService;
@@ -22,8 +23,8 @@ let MailController = class MailController {
     sendsendMessageToAllUsers() {
         return this.mailService.sendMessageToAllUsers("Иди делать плашки нечисть");
     }
-    getAnswer() {
-        return this.mailService.getAnswers();
+    getAnswer(pagination) {
+        return this.mailService.getAnswers(pagination.page, pagination.limit);
     }
     postAnswer(request, res) {
         this.mailService.postAnswer(request.body);
@@ -40,8 +41,9 @@ __decorate([
 ], MailController.prototype, "sendsendMessageToAllUsers", null);
 __decorate([
     (0, common_1.Get)('/getAnswers'),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [PaginationDto_1.PaginationDto]),
     __metadata("design:returntype", Object)
 ], MailController.prototype, "getAnswer", null);
 __decorate([
