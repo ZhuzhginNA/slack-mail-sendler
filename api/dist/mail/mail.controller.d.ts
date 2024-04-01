@@ -4,6 +4,6 @@ export declare class MailController {
     private readonly mailService;
     constructor(mailService: MailService);
     sendsendMessageToAllUsers(): any;
-    getAnswer(request: Request): any;
+    getAnswer(): any;
     postAnswer(request: Request, res: Response): any;
 }

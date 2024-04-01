@@ -22,8 +22,8 @@ let MailController = class MailController {
     sendsendMessageToAllUsers() {
         return this.mailService.sendMessageToAllUsers("Иди делать плашки нечисть");
     }
-    getAnswer(request) {
-        return this.mailService.getAnswer(request.body);
+    getAnswer() {
+        return this.mailService.getAnswers();
     }
     postAnswer(request, res) {
         this.mailService.postAnswer(request.body);
@@ -39,10 +39,9 @@ __decorate([
     __metadata("design:returntype", Object)
 ], MailController.prototype, "sendsendMessageToAllUsers", null);
 __decorate([
-    (0, common_1.Get)('/getAnswer'),
-    __param(0, (0, common_1.Req)()),
+    (0, common_1.Get)('/getAnswers'),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Object)
 ], MailController.prototype, "getAnswer", null);
 __decorate([

@@ -11,9 +11,9 @@ export class MailController {
     return this.mailService.sendMessageToAllUsers("Иди делать плашки нечисть")
   }
 
-  @Get('/getAnswer')
-  getAnswer(@Req() request: Request): any {
-    return this.mailService.getAnswer(request.body)
+  @Get('/getAnswers')
+  getAnswer(): any {
+    return this.mailService.getAnswers()
   }
 
   @Post('/postAnswer')

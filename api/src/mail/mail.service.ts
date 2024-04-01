@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { WebClient } from '@slack/web-api'
 import { IMailService } from './mail.service.interface'
 import { response } from 'express'
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client'
 
 
 const prisma = new PrismaClient()
@@ -11,7 +11,7 @@ const prisma = new PrismaClient()
 
 @Injectable()
 export class MailService implements IMailService {
-     token = 'xoxp-6873655806946-6867019602950-6886442240450-3263978e0500c07b1cc7a72935299c82'
+     token = 'xoxb-6873655806946-6888905554884-ROQnCU7z1izWwhn3DR7uLuH8'
      web = new WebClient(this.token)
 
   
@@ -61,28 +61,36 @@ export class MailService implements IMailService {
                 ],
               },
             ],
-          });
+          })
         }
     
-        console.log('Message successfully sent to all users.');
+        console.log('Message successfully sent to all users.')
       } catch (error) {
-        console.error('Error sending message:', error);
+        console.error('Error sending message:', error)
       }
     }
 
-    public getAnswer(res: Response) {
+    public async getAnswers() {
       try {
-        console.log(res)
-        return res
-      }
-      catch(error){
-        console.log(error)
+        const usersWithAnswers = await prisma.user.findMany({
+          include: {
+            answers: {
+              include: {
+                question: true,
+              },
+            },
+          },
+        });
+    
+        return usersWithAnswers
+      } catch (error) {
+        console.error(error);
+        throw new Error('Internal server error');
       }
     }
 
     public async postAnswer(req: any) {
       try {
-        //  const id = req.payload.user.id
         const answer =JSON.parse(req.payload)
         const userId = answer.channel.id
         const messageTs = answer.message.ts
@@ -104,16 +112,21 @@ export class MailService implements IMailService {
 
       const data = JSON.parse(req.payload)
 
-      // console.log(data)
 
       const newQuestion = await prisma.question.create({
         data: {
   
           text: data.message.blocks[0].text.text
         }
-      });
+      })
 
-      // console.log(data.actions.value)
+      const newUser = await prisma.user.create({
+        data: {
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.username
+        }
+      })
     
       const newAnswer = await prisma.answer.create({
         data: {
@@ -122,16 +135,15 @@ export class MailService implements IMailService {
             connect: {
               id: newQuestion.id
             }
+          },
+          user: {
+            connect: {
+              id: data.user.id
+            }
           }
         }
-      });
+      })
 
-      const newUser = await prisma.user.create({
-        data: {
-          id: data.user.id,
-          name: data.user.name,
-          email: data.user.username
-        }
-      });
+      
     }
 }

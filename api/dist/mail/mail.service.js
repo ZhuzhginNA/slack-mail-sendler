@@ -13,7 +13,7 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 let MailService = class MailService {
     constructor() {
-        this.token = 'xoxp-6873655806946-6867019602950-6886442240450-3263978e0500c07b1cc7a72935299c82';
+        this.token = 'xoxb-6873655806946-6888905554884-ROQnCU7z1izWwhn3DR7uLuH8';
         this.web = new web_api_1.WebClient(this.token);
     }
     async sendMessageToAllUsers(message) {
@@ -62,13 +62,22 @@ let MailService = class MailService {
             console.error('Error sending message:', error);
         }
     }
-    getAnswer(res) {
+    async getAnswers() {
         try {
-            console.log(res);
-            return res;
+            const usersWithAnswers = await prisma.user.findMany({
+                include: {
+                    answers: {
+                        include: {
+                            question: true,
+                        },
+                    },
+                },
+            });
+            return usersWithAnswers;
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
+            throw new Error('Internal server error');
         }
     }
     async postAnswer(req) {
@@ -94,6 +103,13 @@ let MailService = class MailService {
                 text: data.message.blocks[0].text.text
             }
         });
+        const newUser = await prisma.user.create({
+            data: {
+                id: data.user.id,
+                name: data.user.name,
+                email: data.user.username
+            }
+        });
         const newAnswer = await prisma.answer.create({
             data: {
                 text: data.actions[0].value,
@@ -101,14 +117,12 @@ let MailService = class MailService {
                     connect: {
                         id: newQuestion.id
                     }
+                },
+                user: {
+                    connect: {
+                        id: data.user.id
+                    }
                 }
-            }
-        });
-        const newUser = await prisma.user.create({
-            data: {
-                id: data.user.id,
-                name: data.user.name,
-                email: data.user.username
             }
         });
     }
