@@ -12,8 +12,7 @@ const prisma = new PrismaClient()
 
 @Injectable()
 export class MailService implements IMailService {
-   // constructor(private readonly prisma: PrismaClient) {}
-     token = process.env.BOT_TOKEN
+     token = process.env.SLACK_BOT_TOKEN
      web = new WebClient(this.token)
 
   
@@ -98,13 +97,10 @@ export class MailService implements IMailService {
         const answer =JSON.parse(req.payload)
         const userId = answer.channel.id
         const messageTs = answer.message.ts
-
-        console.log(userId)
-
         await this.web.chat.update({
           channel: userId,
           ts: messageTs, 
-          text: 'updatedMessage',
+          text: answer.actions[0].value == 'yes' ? `Спасибо за ответ! Ждем тебя на летнем корпоративе` : `Спасибо за ответ! Очень жаль что ты не сможешь приехать =(`,
         });
         
     }catch(error){

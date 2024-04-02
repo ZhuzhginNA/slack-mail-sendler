@@ -20,8 +20,8 @@ let MailController = class MailController {
     constructor(mailService) {
         this.mailService = mailService;
     }
-    sendsendMessageToAllUsers() {
-        return this.mailService.sendMessageToAllUsers("Иди делать плашки нечисть");
+    sendsendMessageToAllUsers(message) {
+        return this.mailService.sendMessageToAllUsers(message.text);
     }
     getAnswer(pagination) {
         return this.mailService.getAnswers(pagination.page, pagination.limit);
@@ -35,16 +35,17 @@ let MailController = class MailController {
 exports.MailController = MailController;
 __decorate([
     (0, common_1.Post)('/sendMessageToAllUsers'),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Object)
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
 ], MailController.prototype, "sendsendMessageToAllUsers", null);
 __decorate([
     (0, common_1.Get)('/getAnswers'),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [PaginationDto_1.PaginationDto]),
-    __metadata("design:returntype", Object)
+    __metadata("design:returntype", void 0)
 ], MailController.prototype, "getAnswer", null);
 __decorate([
     (0, common_1.Post)('/postAnswer'),
@@ -52,7 +53,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Object)
+    __metadata("design:returntype", void 0)
 ], MailController.prototype, "postAnswer", null);
 exports.MailController = MailController = __decorate([
     (0, common_1.Controller)('/mail'),

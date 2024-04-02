@@ -4,7 +4,7 @@ import { PaginationDto } from './PaginationDto';
 export declare class MailController {
     private readonly mailService;
     constructor(mailService: MailService);
-    sendsendMessageToAllUsers(): any;
-    getAnswer(pagination: PaginationDto): any;
-    postAnswer(request: Request, res: Response): any;
+    sendsendMessageToAllUsers(message: any): Promise<void>;
+    getAnswer(pagination: PaginationDto): Promise<any>;
+    postAnswer(request: Request, res: Response): Response<any, Record<string, any>>;
 }

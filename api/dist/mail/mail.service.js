@@ -13,7 +13,7 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 let MailService = class MailService {
     constructor() {
-        this.token = process.env.BOT_TOKEN;
+        this.token = "xoxb-6873655806946-6888905554884-prvwuUb7M5zY9f8lY6QuUcVr";
         this.web = new web_api_1.WebClient(this.token);
     }
     async sendMessageToAllUsers(message) {
@@ -87,11 +87,10 @@ let MailService = class MailService {
             const answer = JSON.parse(req.payload);
             const userId = answer.channel.id;
             const messageTs = answer.message.ts;
-            console.log(userId);
             await this.web.chat.update({
                 channel: userId,
                 ts: messageTs,
-                text: 'updatedMessage',
+                text: answer.actions[0].value == 'yes' ? `Спасибо за ответ! Ждем тебя на летнем корпоративе` : `Спасибо за ответ! Очень жаль что ты не сможешь приехать =(`,
             });
         }
         catch (error) {
